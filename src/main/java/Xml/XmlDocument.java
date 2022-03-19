@@ -1,13 +1,14 @@
 package Xml;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class XmlDocument {
 
-    private String fileName;
     private XmlElement root;
     private XmlTokenType lastReadTokenType = XmlTokenType.XML_END;
     private String data;
@@ -19,7 +20,25 @@ public class XmlDocument {
      * @param fileName Name of the xml file
      */
     public XmlDocument(String fileName) {
-        this.fileName = fileName;
+        try {
+            data = new String(Files.readAllBytes(Paths.get(fileName)), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            data = "";
+        }
+        this.position = 0;
+    }
+
+    public XmlDocument(InputStream inputStream) {
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        try{
+            for (int length; (length = inputStream.read(buffer)) != -1; ) {
+                result.write(buffer, 0, length);
+            }
+            data = result.toString("UTF-8");
+        } catch (IOException e) {
+            data = "";
+        }
         this.position = 0;
     }
 
@@ -182,9 +201,8 @@ public class XmlDocument {
 
     /**
      * Parses given xml document
-     * @throws IOException When the file can not be read
      */
-    public void parse() throws IOException {
+    public void parse() {
         XmlTextType textType = XmlTextType.XML_TEXT_ATTRIBUTE;
         boolean siblingClosed = false;
         String token;
@@ -192,7 +210,6 @@ public class XmlDocument {
         XmlElement sibling = null;
         XmlElement parent = null;
         XmlElement current = null;
-        data = new String(Files.readAllBytes(Paths.get(this.fileName)), StandardCharsets.UTF_8);
         token = this.getNextToken(textType);
         while (this.lastReadTokenType != XmlTokenType.XML_END){
             switch (this.lastReadTokenType){
