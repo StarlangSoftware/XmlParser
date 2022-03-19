@@ -61,7 +61,7 @@ public class XmlDocument {
     }
 
     /**
-     * Parses a tag like <mytag> or </mytag>
+     * Parses a tag like mytag or /mytag
      * @return Token read
      */
     public String parseTag(){
@@ -107,7 +107,7 @@ public class XmlDocument {
     }
 
     /**
-     * Parses a tag like />
+     * Parses a tag like closing tag
      * @return ""
      */
     public String parseEmptyTag(){
@@ -182,6 +182,7 @@ public class XmlDocument {
 
     /**
      * Parses given xml document
+     * @throws IOException When the file can not be read
      */
     public void parse() throws IOException {
         XmlTextType textType = XmlTextType.XML_TEXT_ATTRIBUTE;
