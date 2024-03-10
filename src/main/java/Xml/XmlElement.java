@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class XmlElement {
 
-    private String name = "";
+    private final String name;
     private String pcData = "";
-    private ArrayList<XmlAttribute> attributes;
-    private XmlElement parent;
+    private final ArrayList<XmlAttribute> attributes;
+    private final XmlElement parent;
     private XmlElement firstChild;
     private XmlElement nextSibling;
 
@@ -94,7 +94,7 @@ public class XmlElement {
     }
 
     public boolean hasAttributes(){
-        return this.attributes.size() != 0;
+        return !this.attributes.isEmpty();
     }
 
 }

@@ -187,11 +187,10 @@ public class XmlDocument {
                 String token;
                 if (xmlTextType == XmlTextType.XML_TEXT_VALUE){
                     token = this.readToken(ch, true, true);
-                    ch = this.nextChar;
                 } else {
                     token = this.readToken(ch, true);
-                    ch = this.nextChar;
                 }
+                ch = this.nextChar;
                 this.lastReadTokenType = XmlTokenType.XML_TEXT;
                 this.position--;
                 return token;
@@ -261,7 +260,7 @@ public class XmlDocument {
                     textType = XmlTextType.XML_TEXT_VALUE;
                     break;
                 case XML_ATTRIBUTE_VALUE:
-                    if (token.length() != 0){
+                    if (!token.isEmpty()){
                         token = this.replaceEscapeCharacters(token);
                         xmlAttribute.setValue(token);
                     } else {

@@ -2,7 +2,7 @@ package Xml;
 
 public class XmlAttribute {
 
-    private String name;
+    private final String name;
     private String value;
 
     /**
